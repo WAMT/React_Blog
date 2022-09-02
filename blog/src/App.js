@@ -4,29 +4,18 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-	const USEFULL = '맛집 추천';
-	let [location, setLocation] = useState([
-		'나면' + USEFULL,
-		'가동' + USEFULL,
-		'다이썬' + USEFULL,
-	]);
+  let [location, setLocation] = useState(['가', '다', '나']);
+  let [like, setLike] = useState([0, 0, 0]);
+  let [modal1, setModal1] = useState(false);
+  let [title, setTitle] = useState(0);
+  let [inputval, setInputVal] = useState('');
+  return (
+    <div className="App">
+      <div className="black-nav">
+        <h4>ReactBlog</h4>
+      </div>
 
-	let [like, setLike] = useState([0, 0, 0]);
-	let [modal1, setModal1] = useState(false);
-
-	return (
-		<div className='App'>
-			<div className='black-nav'>
-				<h4>ReactBlog</h4>
-			</div>
-			{/* <button
-                onClick={() => {
-                    let copy = [...location];
-                    copy.sort();
-                    setLocation(copy);
-                }}>
-                정렬
-            </button>
+      {/* 
             <div className='list'>
                 <h4>
                     {location[0]}
@@ -48,53 +37,96 @@ function App() {
                 </button>
                 <p>9월 1일 발행</p>
             </div>
+			<div className='list'>
+				<h4>{location[1]}</h4>
+				<p>9월 1일 발행</p>
+			</div>
+				<div className='list'>
+				<h4
+					onClick={() => {
+						setModal1(!modal1);
+					}}>
+					{location[2]}
+				</h4>
+				<p>9월 1일 발행</p>
+			</div>
+				*/}
 
-            <div className='list'>
-                <h4>{location[1]}</h4>
-                <p>9월 1일 발행</p>
-            </div>
-            <div className='list'>
-                <h4
-                    onClick={() => {
-                        setModal1(!modal1);
-                    }}>
-                    {location[2]}
-                </h4>
-                <p>9월 1일 발행</p>
-            </div> */}
-			{location.map(function (a, i) {
-				return (
-					<div className='list'>
-						<h4>
-							{location[i]}
-							<span
-								onClick={() => {
-									let copy = [...like];
-									copy[i] = copy[i] + 1;
-									setLike(copy);
-								}}>
-								👍🏻
-							</span>
-							{like[i]}
-						</h4>
-						<p>9월 1일 발행</p>
-					</div>
-				);
-			})}
+      {location.map(function (a, i) {
+        return (
+          <div className="list" key={i + i + i + i}>
+            <h4
+              onClick={() => {
+                setModal1(true);
+                setTitle(i);
+              }}
+            >
+              {location[i]}
+              <span
+                onClick={() => {
+                  let copy = [...like];
+                  copy[i] = copy[i] + 1;
+                  setLike(copy);
+                }}
+              >
+                👍🏻
+              </span>
+              {like[i]}
+            </h4>
+            <p>9월 1일 발행</p>
+            <button
+              onClick={() => {
+                let copy = [...location];
+                copy.splice(i, i + 1);
+                setLocation(copy);
+              }}
+            >
+              글 삭제
+            </button>
+          </div>
+        );
+      })}
 
-			<div>{modal1 == true ? <Modal1 /> : null}</div>
-		</div>
-	);
+      <input
+        onChange={(e) => {
+          setInputVal(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          let copy = [...location];
+          copy.unshift(inputval);
+          setLocation(copy);
+        }}
+      >
+        추가
+      </button>
+
+      <div>
+        {modal1 == true ? (
+          <Modal1 color={'skyblue'} location={location} setLocation={setLocation} title={title} />
+        ) : null}
+      </div>
+    </div>
+  );
 }
 
-function Modal1() {
-	return (
-		<div className='modal1'>
-			<h4>제목</h4>
-			<p>날짜</p>
-			<p>상세내용</p>
-		</div>
-	);
+function Modal1(props) {
+  return (
+    <div className="modal1" style={{ background: props.color }}>
+      <h4>{props.location[props.title]}</h4>
+      <p>날짜</p>
+      <p>상세내용</p>
+      {/* <button
+				onClick={() => {
+					let copy = [...props.location];
+					copy[0] = '여자 코트 추천';
+					props.setLocation(copy);
+				}}>
+				글수정
+			</button> */}
+    </div>
+  );
 }
 //컴포넌트 시용할때 => 반복적인 html 축약할때 2.큰페이지들 하나씩 가져올때 3.자주변경되는것들
 export default App;
