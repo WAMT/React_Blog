@@ -1,132 +1,118 @@
 /* esling-disavle */
+// 1. use Effect(() => {});
+// 2. use Effect(() => {},[]);
+// 3. const [name, setName] = useState("ash");
+//    use Effect(() => {}, [name])
 
 import './App.css';
-import { useState } from 'react';
+// import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function App() {
-  let [location, setLocation] = useState(['가', '다', '나']);
-  let [like, setLike] = useState([0, 0, 0]);
-  let [modal1, setModal1] = useState(false);
-  let [title, setTitle] = useState(0);
-  let [inputval, setInputVal] = useState('');
+const Number = () => {
+  const [number, setNumber] = useState(0);
+  const [name, setName] = useState('ash');
+
+  useEffect(() => {
+    console.log('hello');
+  });
+
+  const counter = () => {
+    setNumber(number + 1);
+  };
+  const changeName = () => {
+    setName('josh');
+  };
   return (
-    <div className="App">
-      <div className="black-nav">
-        <h4>ReactBlog</h4>
-      </div>
-
-      {/* 
-            <div className='list'>
-                <h4>
-                    {location[0]}
-                    <span
-                        onClick={() => {
-                            setLike(like + 1);
-                        }}>
-                        👍🏻
-                    </span>
-                    {like}
-                </h4>
-                <button
-                    onClick={() => {
-                        let copy = [...location];
-                        copy[0] = '김치맛집 추천';
-                        setLocation(copy);
-                    }}>
-                    변경
-                </button>
-                <p>9월 1일 발행</p>
-            </div>
-			<div className='list'>
-				<h4>{location[1]}</h4>
-				<p>9월 1일 발행</p>
-			</div>
-				<div className='list'>
-				<h4
-					onClick={() => {
-						setModal1(!modal1);
-					}}>
-					{location[2]}
-				</h4>
-				<p>9월 1일 발행</p>
-			</div>
-				*/}
-
-      {location.map(function (a, i) {
-        return (
-          <div className="list" key={i + i + i + i}>
-            <h4
-              onClick={() => {
-                setModal1(true);
-                setTitle(i);
-              }}
-            >
-              {location[i]}
-              <span
-                onClick={() => {
-                  let copy = [...like];
-                  copy[i] = copy[i] + 1;
-                  setLike(copy);
-                }}
-              >
-                👍🏻
-              </span>
-              {like[i]}
-            </h4>
-            <p>9월 1일 발행</p>
-            <button
-              onClick={() => {
-                let copy = [...location];
-                copy.splice(i, i + 1);
-                setLocation(copy);
-              }}
-            >
-              글 삭제
-            </button>
-          </div>
-        );
-      })}
-
-      <input
-        onChange={(e) => {
-          setInputVal(e.target.value);
-        }}
-      />
-      <button
-        onClick={() => {
-          let copy = [...location];
-          copy.unshift(inputval);
-          setLocation(copy);
-        }}
-      >
-        추가
-      </button>
-
-      <div>
-        {modal1 == true ? (
-          <Modal1 color={'skyblue'} location={location} setLocation={setLocation} title={title} />
-        ) : null}
-      </div>
+    <div>
+      <button onClick={counter}>숫자</button>
+      <button onClick={changeName}>이름</button>
+      <div>{number}</div>
+      <div>{name}</div>
     </div>
   );
-}
+};
 
-function Modal1(props) {
-  return (
-    <div className="modal1" style={{ background: props.color }}>
-      <h4>{props.location[props.title]}</h4>
-      <p>날짜</p>
-      <p>상세내용</p>
-      {/* <button
-				onClick={() => {
-					let copy = [...props.location];
-					copy[0] = '여자 코트 추천';
-					props.setLocation(copy);
-				}}>
-				글수정
-			</button> */}
-    </div>
-  );
-}
-//컴포넌트 시용할때 => 반복적인 html 축약할때 2.큰페이지들 하나씩 가져올때 3.자주변경되는것들
-export default App;
+export default Number;
+
+// function App() {
+//   let [location, setLocation] = useState(['가가가가가가', '나나나나나나', '다다다다다']);
+//   let [like, setLike] = useState([0, 0, 0]);
+//   let [input, setInput] = useState('');
+//   let [modal, setModal] = useState(false);
+//   let [title, setTitle] = useState(0);
+//   return (
+//     <div className="App">
+//       <div className="black-nav">
+//         <h4>React Blog</h4>
+//       </div>
+//       {location.map(function (a, i) {
+//         return (
+//           <div className="list" key={i}>
+//             <h3
+//               onClick={() => {
+//                 setModal(!modal);
+//                 setTitle(i);
+//               }}
+//             >
+//               {/* 글제목생성 */}
+//               {location[i] + ' '}
+//               {/* 좋아요 */}
+//               <span
+//                 onClick={() => {
+//                   let copy = [...like];
+//                   copy[i] = copy[i] + 1;
+//                   setLike(copy);
+//                 }}
+//               >
+//                 👍🏻 {like[i]}
+//               </span>
+//             </h3>
+//             <h4>내용</h4>
+//             <h4>
+//               발행일 : 2022-05-22
+//               {/* 글삭제 버튼 */}
+//               <button
+//                 style={{ margin: '15px' }}
+//                 onClick={() => {
+//                   let copy = [...location];
+//                   copy.splice(i, i + 1);
+//                   setLocation(copy);
+//                 }}
+//               >
+//                 글 삭제
+//               </button>
+//             </h4>
+//           </div>
+//         );
+//       })}
+//       <div>
+//         <h2>
+//           <input
+//             onChange={(e) => {
+//               setInput(e.target.value);
+//             }}
+//           />
+//           <button
+//             onClick={() => {
+//               let copy = [...location];
+//               copy.unshift(input);
+//               setInput(copy);
+//             }}
+//           >
+//             글 추가
+//           </button>
+//         </h2>
+//       </div>
+//       {modal == true ? <Modal1 location={location} title={title} /> : null};
+//     </div>
+//   );
+// }
+// function Modal1(props) {
+//   return (
+//     <div className="modal1">
+//       <h3>{props.location[props.title]}</h3>
+//       <p>세부내용</p>
+//     </div>
+//   );
+// }
+// export default App;
